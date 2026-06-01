@@ -184,9 +184,9 @@ def dfs(graph, start, end) -> Dict:
 
 # PERBANDINGAN
 def compare_algorithms(graph, start, end) -> Dict:
-    print(f"  ⏳ Dijkstra ..."); r_d = dijkstra(graph, start, end)
-    print(f"  ⏳ BFS      ..."); r_b = bfs(graph, start, end)
-    print(f"  ⏳ DFS      ..."); r_f = dfs(graph, start, end)
+    print(f"   Dijkstra ..."); r_d = dijkstra(graph, start, end)
+    print(f"   BFS      ..."); r_b = bfs(graph, start, end)
+    print(f"   DFS      ..."); r_f = dfs(graph, start, end)
 
     comp = {"Dijkstra": r_d, "BFS": r_b, "DFS": r_f, "start": start, "end": end}
     comp["same_path"] = {
@@ -215,7 +215,6 @@ def print_comparison(comp):
         print(f"\n  [{algo}]")
         print(f"    Waktu Tempuh   : {r['total_min']:.2f} menit")
         print(f"    Total Jarak    : {r['total_dist_m']/1000:.3f} km")
-        print(f"    Node di Jalur  : {len(r['path'])}")
         print(f"    Node Diperiksa : {r['nodes_examined']}")
         print(f"    Waktu Eksekusi : {r['time_ms']:.4f} ms")
         print(f"    Jalur          : {' → '.join(r['path'])}")
@@ -247,8 +246,8 @@ def print_comparison(comp):
     print(f"\n  Jalur sama? Dijkstra==BFS: {'✅' if comp['same_path']['Dijkstra == BFS'] else '❌'}  "
           f"Dijkstra==DFS: {'✅' if comp['same_path']['Dijkstra == DFS'] else '❌'}  "
           f"BFS==DFS: {'✅' if comp['same_path']['BFS == DFS'] else '❌'}")
-    print(f"  ⚡ Tercepat       : {comp['fastest_algo']}")
-    print(f"  🏆 Jalur optimal  : {comp['optimal_time_algo']}")
+    print(f"  Tercepat       : {comp['fastest_algo']}")
+    print(f"  Jalur optimal  : {comp['optimal_time_algo']}")
     print(f"{'='*65}\n")
 
 # VISUALISASI
@@ -274,10 +273,10 @@ def plot_comparison(comp, graph, NODES, GEOM, save_path=None):
     fig.patch.set_facecolor("#0d1117")
     # LAYOUT
     gs = fig.add_gridspec(
-        3,
+        4,
         3,
         width_ratios=[2.4, 1, 1],
-        height_ratios=[1, 1, 1],
+        height_ratios=[0.85, 0.85, 0.85, 0.55],
         hspace=0.18,
         wspace=0.12
     )
@@ -285,12 +284,8 @@ def plot_comparison(comp, graph, NODES, GEOM, save_path=None):
     ax_dijkstra = fig.add_subplot(gs[0, 1:])
     ax_bfs      = fig.add_subplot(gs[1, 1:])
     ax_dfs      = fig.add_subplot(gs[2, 1:])
-    all_axes = [
-        ax_map,
-        ax_dijkstra,
-        ax_bfs,
-        ax_dfs
-    ]
+    ax_summary  = fig.add_subplot(gs[3, 1:])
+    all_axes = [ax_map,ax_dijkstra,ax_bfs,ax_dfs,ax_summary]
     for ax in all_axes:
         ax.set_facecolor("#0d1117")
     start = comp["start"]
@@ -433,10 +428,6 @@ def plot_comparison(comp, graph, NODES, GEOM, save_path=None):
             algo: comp[algo]["total_dist_m"]
             for algo in ["Dijkstra", "BFS", "DFS"]
         },
-        "path_len": {
-            algo: len(comp[algo]["path"])
-            for algo in ["Dijkstra", "BFS", "DFS"]
-        },
         "nodes_examined": {
             algo: comp[algo]["nodes_examined"]
             for algo in ["Dijkstra", "BFS", "DFS"]
@@ -487,7 +478,7 @@ def plot_comparison(comp, graph, NODES, GEOM, save_path=None):
             sp.set_linewidth(glow_width)
         ax.set_title(
             title_text,
-            fontsize=20,
+            fontsize=16,
             color=color,
             fontweight="bold",
             loc="left",
@@ -504,11 +495,6 @@ def plot_comparison(comp, graph, NODES, GEOM, save_path=None):
                 "Jarak",
                 f"{r['total_dist_m']/1000:.2f} km",
                 best_metrics["total_dist_m"] == algo
-            ),
-            (
-                "Node Jalur",
-                f"{len(r['path'])}",
-                best_metrics["path_len"] == algo
             ),
             (
                 "Node Dicek",
@@ -553,8 +539,8 @@ def plot_comparison(comp, graph, NODES, GEOM, save_path=None):
         ax.text(
             0.78,
             0.82,
-            f"Score: {algo_scores[algo]}/5",
-            fontsize=16,
+            f"Score: {algo_scores[algo]}/4",
+            fontsize=14,
             color=color,
             fontweight="bold",
             transform=ax.transAxes
@@ -565,10 +551,63 @@ def plot_comparison(comp, graph, NODES, GEOM, save_path=None):
             0.03,
             0.08,
             f"Path: {short_path}",
-            fontsize=10,
+            fontsize=8,
             color="#bbbbbb",
             transform=ax.transAxes
         )
+
+# SUMMARY PANEL
+    ax_summary.set_xticks([])
+    ax_summary.set_yticks([])
+    for sp in ax_summary.spines.values():
+        sp.set_color("#3498DB")
+        sp.set_linewidth(2)
+    ax_summary.set_facecolor("#111827")
+    same_db = "SAMA" if comp["same_path"]["Dijkstra == BFS"] else "TIDAK SAMA"
+    same_dd = "SAMA" if comp["same_path"]["Dijkstra == DFS"] else "TIDAK SAMA"
+    same_bd = "SAMA" if comp["same_path"]["BFS == DFS"] else "TIDAK SAMA"
+    fastest_algo = min(
+        ["Dijkstra","BFS","DFS"],
+        key=lambda a: comp[a]["time_ms"]
+    )
+    summary_lines = [
+        "KESIMPULAN",
+        "",
+        f"Jalur sama? Dijkstra==BFS : {same_db}",
+        f"Jalur sama? Dijkstra==DFS : {same_dd}",
+        f"Jalur sama? BFS==DFS      : {same_bd}",
+        f"Tercepat      : {fastest_algo}",
+        f"Jalur optimal : {best_algorithm}"
+    ]
+    y = 0.85
+    for i, txt in enumerate(summary_lines):
+        if i == 0:
+            color = "#3498DB"
+            fs = 16
+            fw = "bold"
+        elif "Tercepat" in txt:
+            color = "#2ED573"
+            fs = 13
+            fw = "bold"
+        elif "optimal" in txt:
+            color = "#FF4757"
+            fs = 13
+            fw = "bold"
+        else:
+            color = "white"
+            fs = 12
+            fw = "normal"
+        ax_summary.text(
+            0.03,
+            y,
+            txt,
+            color=color,
+            fontsize=fs,
+            fontweight=fw,
+            transform=ax_summary.transAxes
+        )
+        y -= 0.12
+
     # MAIN TITLE
     fig.suptitle(
         "Smart Navigation System — Dijkstra vs BFS vs DFS",
@@ -587,6 +626,188 @@ def plot_comparison(comp, graph, NODES, GEOM, save_path=None):
         )
     plt.show()
     plt.close()
+
+# SURABAYA GRAPH VISUALIZATION
+def show_surabaya_graph(graph, NODES, GEOM):
+    fig = plt.figure(figsize=(20, 12))
+    fig.patch.set_facecolor("#0d1117")
+    gs = fig.add_gridspec(
+        1,
+        2,
+        width_ratios=[2.3, 1]
+    )
+    ax_map = fig.add_subplot(gs[0, 0])
+    ax_info = fig.add_subplot(gs[0, 1])
+    ax_map.set_facecolor("#0d1117")
+    ax_info.set_facecolor("#0d1117")
+
+    # DEGREE ANALYSIS
+
+    degree_dict = {
+        node: len(graph[node])
+        for node in graph
+    }
+    total_nodes = len(graph)
+    total_edges = sum(
+        len(graph[node])
+        for node in graph
+    ) // 2
+    avg_degree = (
+        sum(degree_dict.values())
+        / total_nodes
+    )
+    highest_degree_node = max(
+        degree_dict,
+        key=degree_dict.get
+    )
+    lowest_degree_node = min(
+        degree_dict,
+        key=degree_dict.get
+    )
+    # top 10 node degree terbesar
+    top_degree = sorted(
+        degree_dict.items(),
+        key=lambda x: x[1],
+        reverse=True
+    )[:10]
+
+    # DRAW NETWORK
+    drawn = set()
+    for u, nb_list in graph.items():
+        for e in nb_list:
+            v = e["to"]
+            key = tuple(sorted([u, v]))
+
+            if key in drawn:
+                continue
+
+            drawn.add(key)
+            coords = GEOM.get((u, v), [])
+            if coords:
+                xs = [p[0] for p in coords]
+                ys = [p[1] for p in coords]
+            else:
+                xs = [
+                    NODES[u]["lon"],
+                    NODES[v]["lon"]
+                ]
+                ys = [
+                    NODES[u]["lat"],
+                    NODES[v]["lat"]
+                ]
+            ax_map.plot(
+                xs,
+                ys,
+                color="#1f3a5f",
+                linewidth=0.8,
+                alpha=0.45
+            )
+
+    # DRAW NODES
+    for name, nd in NODES.items():
+        color = NODE_COLORS.get(
+            nd["type"],
+            "#aaaaaa"
+        )
+        degree = degree_dict[name]
+        size = 60 + degree * 8
+        ax_map.scatter(
+            nd["lon"],
+            nd["lat"],
+            c=color,
+            s=size,
+            edgecolors="white",
+            linewidths=0.5,
+            zorder=5
+        )
+        ax_map.annotate(
+            f"{name}\n(d={degree})",
+            (nd["lon"], nd["lat"]),
+            xytext=(4, 3),
+            textcoords="offset points",
+            fontsize=6,
+            color="white"
+        )
+
+    # LEGEND
+    legend_elements = [
+        mpatches.Patch(
+            color=c,
+            label=t.capitalize()
+        )
+        for t, c in NODE_COLORS.items()
+    ]
+    ax_map.legend(
+        handles=legend_elements,
+        loc="lower left",
+        fontsize=8,
+        ncol=2,
+        facecolor="#111827",
+        edgecolor="#334155",
+        labelcolor="white"
+    )
+    ax_map.set_title(
+        "Surabaya Landmark Graph (40 Nodes)",
+        fontsize=18,
+        color="white",
+        fontweight="bold"
+    )
+    ax_map.tick_params(colors="#aaaaaa")
+    ax_map.grid(alpha=0.08)
+
+    # INFO PANEL
+    ax_info.axis("off")
+    info_lines = [
+        "GRAPH STATISTICS",
+        "",
+        f"Total Nodes      : {total_nodes}",
+        f"Total Edges      : {total_edges}",
+        f"Average Degree   : {avg_degree:.2f}",
+        "",
+        f"Highest Degree:",
+        f"{highest_degree_node}",
+        f"Degree = {degree_dict[highest_degree_node]}",
+        "",
+        f"Lowest Degree:",
+        f"{lowest_degree_node}",
+        f"Degree = {degree_dict[lowest_degree_node]}",
+        "",
+        "TOP 10 DEGREE NODES",
+        ""
+    ]
+    for name, deg in top_degree:
+        info_lines.append(
+            f"{name[:24]:<24} {deg}"
+        )
+    y = 0.98
+    for i, line in enumerate(info_lines):
+        if i == 0:
+            color = "#2ED573"
+            size = 16
+        elif "TOP 10" in line:
+            color = "#FFA502"
+            size = 14
+        else:
+            color = "white"
+            size = 11
+        ax_info.text(
+            0.02,
+            y,
+            line,
+            fontsize=size,
+            color=color,
+            family="monospace",
+            transform=ax_info.transAxes,
+            verticalalignment="top"
+        )
+        y -= 0.04
+    fig.suptitle(
+        "Graph Representation of Surabaya Smart Navigation System",
+        fontsize=22,
+        color="white",
+        fontweight="bold"
+    )
+    plt.show()
 
 # DIJKSTRA ANIMATION
 NODE_STATE_COLORS = {
@@ -647,10 +868,7 @@ def animate_dijkstra_advanced(
             if nd < dist[nb]:
                 dist[nb] = nd
                 pred[nb] = cur
-                heapq.heappush(
-                    heap,
-                    (nd, nb)
-                )
+                heapq.heappush(heap,(nd, nb))
                 frontier.add(nb)
 
     # FINAL PATH
@@ -854,7 +1072,8 @@ def animate_dijkstra_advanced(
 
     plt.show()
 
-# MAIN
+
+
 def main():
     print("\n" + "="*65)
     print("  SMART NAVIGATION SYSTEM — 40 NODE SURABAYA")
@@ -890,23 +1109,12 @@ def main():
         try:
             start = node_list[int(s)-1]
             end   = node_list[int(e)-1]
-            comp = compare_algorithms(
-                graph,
-                start,
-                end
-            )
+            comp = compare_algorithms(graph,start,end)
             print_comparison(comp)
-            animate_dijkstra_advanced(
-                graph,
-                NODES,
-                GEOM,
-                start,
-                end
-            )
-            if input("  Simpan visualisasi? (y/n): ").strip().lower() == "y":
-                plot_comparison(comp, graph, NODES, GEOM, save_path=f"output/interaktif_{s}_{e}.png")
+            animate_dijkstra_advanced(graph,NODES,GEOM,start,end)
+            plot_comparison(comp, graph, NODES, GEOM, save_path=f"output/interaktif_{s}_{e}.png")
         except (IndexError, ValueError) as ex:
-            print(f"   Input tidak valid: {ex}")
+            print(f"Input tidak valid: {ex}")
         except KeyboardInterrupt:
             break
 
