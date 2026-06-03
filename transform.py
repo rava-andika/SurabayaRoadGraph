@@ -13,41 +13,41 @@ OUT_GEOM      = "data/edges_geometry.csv"
 
 # 40 LANDMARK SURABAYA
 LANDMARKS = [
-    ("UNESA Ketintang",            -7.3136, 112.7241, "kampus"),
-    ("ITS Sukolilo",               -7.2754, 112.7964, "kampus"),
-    ("Universitas Airlangga",      -7.2828, 112.7810, "kampus"),
+    ("UNESA Ketintang",            -7.312792, 112.728529, "kampus"),
+    ("ITS Sukolilo",               -7.290652, 112.791751, "kampus"),
+    ("Universitas Airlangga",      -7.269996, 112.782223, "kampus"), 
     ("Universitas Surabaya",       -7.3019, 112.7780, "kampus"),
     ("Universitas Negeri UM",      -7.2675, 112.7340, "kampus"),
     ("STTS Surabaya",              -7.2611, 112.7512, "kampus"),
     ("Tunjungan Plaza",            -7.2577, 112.7376, "mall"),
     ("Grand City Mall",            -7.2480, 112.7512, "mall"),
     ("Galaxy Mall",                -7.2913, 112.7805, "mall"),
-    ("BG Junction",                -7.2518, 112.7305, "mall"),
-    ("Ciputra World",              -7.2908, 112.7388, "mall"),
-    ("Royal Plaza",                -7.3028, 112.7310, "mall"),
+    ("BG Junction",                -7.255983, 112.734236, "mall"),
+    ("Ciputra World",              -7.291751, 112.7186, "mall"),
+    ("Royal Plaza",                -7.310458, 112.734864, "mall"), 
     ("Stasiun Gubeng",             -7.2653, 112.7522, "transportasi"),
     ("Stasiun Pasar Turi",         -7.2448, 112.7266, "transportasi"),
-    ("Terminal Bungurasih",        -7.3564, 112.7387, "transportasi"),
+    ("Terminal Bungurasih",        -7.35349, 112.722435, "transportasi"),
     ("Terminal Wonokromo",         -7.3003, 112.7318, "transportasi"),
     ("Pelabuhan Tanjung Perak",    -7.2014, 112.7283, "transportasi"),
     ("RSUD Dr. Soetomo",           -7.2690, 112.7503, "rumahsakit"),
     ("RS Premier Surabaya",        -7.3025, 112.7658, "rumahsakit"),
     ("RS Siloam Surabaya",         -7.2610, 112.7411, "rumahsakit"),
     ("Balai Kota Surabaya",        -7.2492, 112.7376, "pemerintahan"),
-    ("Tugu Pahlawan",              -7.2459, 112.7369, "landmark"),
-    ("Masjid Al-Akbar",            -7.3322, 112.7291, "landmark"),
+    ("Tugu Pahlawan",              -7.247186, 112.73859, "landmark"), 
+    ("Masjid Al-Akbar",            -7.33543, 112.716648, "landmark"), 
     ("Kebun Binatang Surabaya",    -7.2949, 112.7307, "wisata"),
     ("Monkasel Surabaya",          -7.2643, 112.7479, "wisata"),
     ("House of Sampoerna",         -7.2387, 112.7310, "wisata"),
-    ("Simpang Jl. Ahmad Yani",     -7.3136, 112.7322, "persimpangan"),
-    ("Simpang Wonokromo",          -7.3003, 112.7318, "persimpangan"),
+    ("Simpang Jl. Ahmad Yani",     -7.326419, 112.731315, "persimpangan"),
+    ("Simpang Wonokromo",          -7.300831, 112.737107, "persimpangan"),
     ("Simpang Darmo - Polda",      -7.2839, 112.7350, "persimpangan"),
     ("Simpang Urip Sumoharjo",     -7.2720, 112.7320, "persimpangan"),
     ("Simpang Basuki Rahmat",      -7.2622, 112.7388, "persimpangan"),
     ("Simpang Embong Malang",      -7.2590, 112.7340, "persimpangan"),
     ("Simpang Pemuda - Gubernur",  -7.2550, 112.7450, "persimpangan"),
-    ("Bundaran Waru",              -7.3625, 112.7322, "persimpangan"),
-    ("Simpang Kenjeran",           -7.2320, 112.7750, "persimpangan"),
+    ("Bundaran Waru",              -7.346099, 112.729253, "persimpangan"),
+    ("Simpang Kenjeran",           -7.245422, 112.768848, "persimpangan"),
     ("Simpang Jl. Diponegoro",     -7.2780, 112.7460, "persimpangan"),
     ("Simpang Raya Darmo",         -7.2910, 112.7360, "persimpangan"),
     ("Simpang Joyoboyo",           -7.3060, 112.7290, "persimpangan"),
@@ -115,7 +115,7 @@ for (name, lat, lon, tipe) in LANDMARKS:
                            "type": tipe, "osmid": osmid,
                            "snap_dist_m": round(snap_d, 1)})
     osmid_to_name[osmid] = name
-    print(f"      {name:<35} → {osmid} ({snap_d:.0f} m)")
+    print(f"{name:<35} → {osmid} ({snap_d:.0f} m)")
 
 nodes_out = pd.DataFrame(landmark_rows)
 
@@ -177,13 +177,12 @@ for _, row in edges_raw.iterrows():
     if not ow:
         adj.setdefault(v, []).append(edge_rev)
 
-print(f"      Adjacency siap: {len(adj)} OSM node")
+print(f"Adjacency siap: {len(adj)} OSM node")
 
 # TEMUKAN EDGE ANTAR LANDMARK + KUMPULKAN GEOMETRY
 print("\n[4/5] Mencari koneksi + geometry antar 40 landmark via BFS ...")
 osmid_list = [r["osmid"] for r in landmark_rows]
 name_list  = [r["name"]  for r in landmark_rows]
-
 edge_rows  = []
 geom_rows  = []
 found = skipped = 0
@@ -242,7 +241,7 @@ for i, src in enumerate(osmid_list):
         })
         found += 1
 
-print(f"      {found} edge ditemukan, {skipped} dilewati")
+print(f"{found} edge ditemukan, {skipped} dilewati")
 
 # SIMPAN OUTPUT
 print(f"\n[5/5] Menyimpan ...")
@@ -250,7 +249,7 @@ nodes_out.to_csv(OUT_NODES, index=False)
 pd.DataFrame(edge_rows).to_csv(OUT_EDGES, index=False)
 pd.DataFrame(geom_rows).to_csv(OUT_GEOM,  index=False)
 
-print(f"   {OUT_NODES}  ({len(nodes_out)} node)")
-print(f"   {OUT_EDGES}  ({len(edge_rows)} edge)")
-print(f"   {OUT_GEOM}   ({len(geom_rows)} polyline)")
+print(f"{OUT_NODES}  ({len(nodes_out)} node)")
+print(f"{OUT_EDGES}  ({len(edge_rows)} edge)")
+print(f"{OUT_GEOM}   ({len(geom_rows)} polyline)")
 print("\nTransformasi selesai!")
