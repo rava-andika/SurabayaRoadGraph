@@ -1,0 +1,41 @@
+name,lat,lon,type,osmid,snap_dist_m
+UNESA Ketintang,-7.3136156,112.7295211,kampus,4540778358,142.7
+ITS Sukolilo,-7.29062,112.7914341,kampus,1362379936,35.1
+Universitas Airlangga,-7.2700014,112.7822093,kampus,415832044,1.6
+Universitas Surabaya,-7.3018365,112.77807,kampus,6862814076,10.5
+Universitas Negeri UM,-7.2670298,112.7330868,kampus,6829283784,113.5
+STTS Surabaya,-7.2606827,112.7512112,kampus,1685005288,46.4
+Tunjungan Plaza,-7.25698,112.7375645,mall,4465908463,80.2
+Grand City Mall,-7.2476617,112.7508026,mall,4478222232,57.8
+Galaxy Mall,-7.2907803,112.7806603,mall,4451570036,60.4
+BG Junction,-7.2559863,112.7342367,mall,270613355,0.4
+Ciputra World,-7.2917565,112.7186739,mall,420469015,8.2
+Royal Plaza,-7.3104722,112.7348656,mall,886386169,1.6
+Stasiun Gubeng,-7.2659309,112.7517984,transportasi,2304458296,83.0
+Stasiun Pasar Turi,-7.2453573,112.7269248,transportasi,4533089900,71.6
+Terminal Bungurasih,-7.3475435,112.724914,transportasi,9620111085,715.5
+Terminal Wonokromo,-7.2997201,112.7317335,transportasi,3730492708,64.9
+Pelabuhan Tanjung Perak,-7.2001767,112.7328553,transportasi,1507762774,520.6
+RSUD Dr. Soetomo,-7.2687085,112.7504038,rumahsakit,1283196141,34.4
+RS Premier Surabaya,-7.3022109,112.7660073,rumahsakit,1719408737,39.4
+RS Siloam Surabaya,-7.261266,112.7418481,rumahsakit,5579917559,87.7
+Balai Kota Surabaya,-7.2494321,112.7377148,pemerintahan,264874789,28.7
+Tugu Pahlawan,-7.2472031,112.7385968,landmark,264874785,2.0
+Masjid Al-Akbar,-7.3353836,112.716862,landmark,9152008523,24.2
+Kebun Binatang Surabaya,-7.2953955,112.7309275,wisata,1722872954,60.5
+Monkasel Surabaya,-7.2639015,112.7480751,wisata,5595745555,48.3
+House of Sampoerna,-7.2383926,112.7311809,wisata,5541695748,39.6
+Simpang Jl. Ahmad Yani,-7.3264521,112.7312393,persimpangan,414289208,9.1
+Simpang Wonokromo,-7.3008186,112.7371106,persimpangan,13728031989,1.4
+Simpang Darmo - Polda,-7.284022,112.7345702,persimpangan,1685220139,49.3
+Simpang Urip Sumoharjo,-7.2729217,112.7313714,persimpangan,5587366957,123.7
+Simpang Basuki Rahmat,-7.2610097,112.7390343,persimpangan,13318656812,134.9
+Simpang Embong Malang,-7.2591085,112.7346493,persimpangan,1682372851,72.6
+Simpang Pemuda - Gubernur,-7.255475,112.7449068,persimpangan,4465683724,53.8
+Bundaran Waru,-7.3462602,112.7292748,persimpangan,534580366,18.1
+Simpang Kenjeran,-7.2454282,112.7688528,persimpangan,2938835953,0.9
+Simpang Jl. Diponegoro,-7.2786048,112.7453852,persimpangan,9134387621,95.5
+Simpang Raya Darmo,-7.2906934,112.7363385,persimpangan,3733180955,50.6
+Simpang Joyoboyo,-7.3058713,112.7288486,persimpangan,1722906774,22.0
+Simpang HR Muhammad,-7.2916063,112.7550023,persimpangan,1685015267,11.8
+Simpang Mulyosari,-7.2549593,112.7853988,persimpangan,9719697293,44.2
